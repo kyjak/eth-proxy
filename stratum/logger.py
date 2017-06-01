@@ -24,8 +24,11 @@ class Logger(object):
         twisted_log.msg(msg)
 '''
 
-def get_logger(name):    
-    logger = logging.getLogger(name)
+def get_logger(name, logfile = None):    
+    if logfile is None:
+        logfile = name
+    logging.basicConfig(filename = logfile)
+    logger = logging.getLogger(name)      
     logger.addHandler(stream_handler)
     logger.setLevel(getattr(logging, settings.LOGLEVEL))
     

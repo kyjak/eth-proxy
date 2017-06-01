@@ -8,7 +8,11 @@ import socket
 
 from stratum import settings
 import stratum.logger
-log = stratum.logger.get_logger('proxy')
+
+if len(sys.argv) < 2:
+    sys.exit("Please provide a logging file as argument")
+
+log = stratum.logger.get_logger('proxy', sys.argv[1])
 
 if __name__ == '__main__':
     if len(settings.WALLET)!=42 and len(settings.WALLET)!=40:
