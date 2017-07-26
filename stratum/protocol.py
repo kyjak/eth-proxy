@@ -240,13 +240,14 @@ class Protocol(LineOnlyReceiver):
             request_counter.decrease()
            
             try:
+                timestamp = int(time.time())
                 meta = self.lookup_table[msg_id]
                 if meta['method'] == "eth_submitWork":
                     response_time = (time.time() - meta['start_time']) * 1000
                     if msg_result == True:
-                        log.info("[%dms] %s from '%s' accepted" % (response_time, meta['method'], meta['worker_name']))
+                        log.info("%d [%dms] %s from '%s' accepted" % (timestamp, response_time, meta['method'], meta['worker_name']))
                     else:
-                        log.warning("[%dms] %s from '%s' REJECTED" % (response_time, meta['method'], meta['worker_name']))
+                        log.warning("%d [%dms] %s from '%s' REJECTED" % (timestamp, response_time, meta['method'], meta['worker_name']))
                 del self.lookup_table[msg_id]
             except KeyError:
                 # When deferred object for given message ID isn't found, it's an error
